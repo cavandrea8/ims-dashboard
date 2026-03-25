@@ -6,7 +6,7 @@ const getToken = () => localStorage.getItem('token');
 // Generic fetch wrapper with auth
 const fetchAPI = async (endpoint, options = {}) => {
   const token = getToken();
-  
+
   const config = {
     ...options,
     headers: {
@@ -27,6 +27,10 @@ const fetchAPI = async (endpoint, options = {}) => {
     return data;
   } catch (error) {
     console.error('API Error:', error);
+    // Add more context to the error
+    if (error.message === 'Failed to fetch') {
+      error.message = 'Impossibile connettersi al server backend. Assicurati che il backend sia in esecuzione su http://localhost:5000';
+    }
     throw error;
   }
 };
